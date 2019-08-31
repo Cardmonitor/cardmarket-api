@@ -1,0 +1,8 @@
+/vendor
+products.csv
+stock.csv
+Tests/responses/expansion/expansion.php
+Tests/responses/order/sold_paid.php
+Tests/responses/order/sold_received.php
+Tests/responses/product/product.php
+Tests/access.php
