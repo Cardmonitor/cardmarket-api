@@ -12,9 +12,9 @@
 
         protected $client;
 
-        public function __construct(array $access, string $url = '')
+        public function __construct(array $access)
         {
-            $access['url'] = $this->getUrl($url);
+            $access['url'] = $this->getUrl($access['url'] ?? '');
 
             $this->account = new Account($access);
             $this->expansion = new Expansion($access);
