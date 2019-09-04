@@ -11,7 +11,7 @@ class TestCase extends PHPUnitTestCase
 
     protected function setUp()
     {
-        require_once ('access.php');
+        require('access.php');
 
         $this->api = new Api($accessSandboxTaces2 + ['url' => Api::URL_SANDBOX]);
     }

@@ -6,3 +6,4 @@ Tests/responses/order/sold_paid.php
 Tests/responses/order/sold_received.php
 Tests/responses/product/product.php
 Tests/access.php
+singles.csv

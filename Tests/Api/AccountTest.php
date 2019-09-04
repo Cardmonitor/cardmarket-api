@@ -8,7 +8,6 @@ class AccountTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     public function getsAccountInformation()
     {
         $data = $this->api->account->get();
-
         $this->assertArrayHasKey('account', $data);
     }
 }

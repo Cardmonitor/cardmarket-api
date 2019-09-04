@@ -14,6 +14,22 @@
         {
             return $this->_get('products/' . $productId);
         }
+
+        /**
+         * @var $parameters:
+         *          string search
+         *          string exact (true|false)
+         *          int idGame
+         *          int idLanguage
+         *          int start
+         *          int maxResults
+         */
+        public function find(string $search, array $parameters = [])
+        {
+            $parameters['search'] = $search;
+
+            return $this->_get('products/find', $parameters);
+        }
     }
 
 ?>

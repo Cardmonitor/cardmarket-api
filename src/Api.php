@@ -12,16 +12,40 @@
 
         protected $client;
 
+        protected $requestLimitMax = 0;
+        protected $requestLimitCount = 0;
+
         public function __construct(array $access)
         {
             $access['url'] = $this->getUrl($access['url'] ?? '');
 
-            $this->account = new Account($access);
-            $this->expansion = new Expansion($access);
-            $this->messages = new Messages($access);
-            $this->product = new Product($access);
-            $this->stock = new Stock($access);
-            $this->order = new Order($access);
+            $this->account = new Account($this, $access);
+            $this->expansion = new Expansion($this, $access);
+            $this->messages = new Messages($this, $access);
+            $this->product = new Product($this, $access);
+            $this->priceguide = new Priceguide($this, $access);
+            $this->stock = new Stock($this, $access);
+            $this->order = new Order($this, $access);
+        }
+
+        public function setRequestLimitCount(int $limit) : void
+        {
+            $this->requestLimitCount = $limit;
+        }
+
+        public function setRequestLimitMax(int $limit) : void
+        {
+            $this->requestLimitMax = $limit;
+        }
+
+        public function getRequestLimitCount() : int
+        {
+            return $this->requestLimitCount;
+        }
+
+        public function getRequestLimitMax() : int
+        {
+            return $this->requestLimitMax;
         }
 
         private function getUrl(string $url) : string

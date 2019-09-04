@@ -2,22 +2,25 @@
 
 namespace Cardmonitor\Cardmarket;
 
+use Cardmonitor\Cardmarket\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
 use Spatie\ArrayToXml\ArrayToXml;
 
 abstract class AbstractApi
 {
     protected $access;
+    protected $api;
     protected $basePath = 'ws/v2.0/';
     protected $debug = false;
 
-    public function __construct(array $access)
+    public function __construct(Api $api, array $access)
     {
         $this->access = $access;
-
+        $this->api = $api;
     }
 
     protected function getClient(string $path) {
@@ -53,13 +56,14 @@ abstract class AbstractApi
             $xml
         );
         $response = $this->getClient($path)->send($request);
+        $this->setRequestLimit($response);
 
-        return json_decode($response->getBody(), true);
+        return $this->xmlToArray($response->getBody());
     }
 
     protected function _get(string $path, array $parameters = [])
     {
-        return $this->request('GET', 'output.json/' . $path . (count($parameters) > 0 ? '?' . http_build_query($parameters) : ''));
+        return $this->request('GET', 'output.json/' . $path, $parameters);
     }
 
     protected function _post(string $path, array $parameters)
@@ -71,8 +75,9 @@ abstract class AbstractApi
             ArrayToXml::convert($parameters, 'request')
         );
         $response = $this->getClient($path)->send($request);
+        $this->setRequestLimit($response);
 
-        return json_decode($response->getBody(), true);
+        return $this->xmlToArray($response->getBody());
     }
 
     protected function _put(string $path, array $parameters, array $xmlParameters = [])
@@ -84,17 +89,33 @@ abstract class AbstractApi
             count($xmlParameters) ? ArrayToXml::convert($xmlParameters, 'request') : null,
         );
         $response = $this->getClient($path)->send($request);
+        $this->setRequestLimit($response);
 
-        return json_decode($response->getBody(), true);
+        return $this->xmlToArray($response->getBody());
     }
 
     protected function request(string $method, string $path = '', array $parameters = [])
     {
 
-        $response = $this->getClient($path)->$method($this->basePath . $path, [ 'form_params' => $parameters, 'debug' => $this->debug ]);
+        $response = $this->getClient($path)->$method($this->basePath . $path, [ 'query' => $parameters, 'debug' => $this->debug ]);
+        $this->setRequestLimit($response);
 
         return json_decode($response->getBody(), true);
 
+    }
+
+    protected function setRequestLimit(Response $response) : void
+    {
+        $headers = $response->getHeaders();
+        $this->api->setRequestLimitCount($headers['X-Request-Limit-Count'][0]);
+        $this->api->setRequestLimitMax($headers['X-Request-Limit-Max'][0]);
+    }
+
+    protected function xmlToArray(string $xmlstring) : array
+    {
+        $xml = simplexml_load_string($xmlstring, "SimpleXMLElement", LIBXML_NOCDATA);
+        $json = json_encode($xml);
+        return json_decode($json, true);
     }
 
 }

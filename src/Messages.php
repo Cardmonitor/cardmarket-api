@@ -12,7 +12,7 @@
 
         public function unread()
         {
-            return $this->find([ 'unread' => 'true' ]);
+            return $this->find([ 'unread' => true ]);
         }
 
         public function read()
@@ -25,9 +25,9 @@
             return $this->_get('account/messages/find', $parameters);
         }
 
-        public function delete(int $userId, int $messageId)
+        public function delete(int $userId, int $messageId = 0)
         {
-
+            return $this->_delete('account/messages/' . $userId . ($messageId ? '/' . $messageId : ''));
         }
 
         public function send(int $userId, string $message)

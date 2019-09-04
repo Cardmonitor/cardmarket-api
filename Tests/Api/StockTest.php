@@ -12,6 +12,7 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     {
         $data = $this->api->stock->get();
         $this->assertArrayHasKey('article', $data);
+        $this->showStock($data);
     }
 
     /** @test */
@@ -32,7 +33,6 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $stock = $stocks['article'][0];
 
         $data = $this->api->stock->article($stock['idArticle']);
-        var_dump($data);
         $this->assertArrayHasKey('article', $data);
     }
 
@@ -50,8 +50,46 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 
         $data = $this->api->stock->add($article);
 
-        $stock = $this->api->stock->get();
-        $this->showStock($stock);
+        $this->assertArrayHasKey('inserted', $data);
+        $this->assertEquals('true', $data['inserted']['success']);
+
+        $article['idArticle'] = $data['inserted']['idArticle']['idArticle'];
+        $this->api->stock->delete($article);
+    }
+
+    /** @test */
+    public function addsTwoArticles()
+    {
+        $articles = [
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+        ];
+
+        $data = $this->api->stock->add($articles);
+
+        $this->assertArrayHasKey('inserted', $data);
+        $this->assertEquals('true', $data['inserted'][0]['success']);
+        $this->assertEquals('true', $data['inserted'][1]['success']);
+        $this->assertCount(2, $data['inserted']);
+
+        foreach ($articles as $key => $article) {
+            $articles[$key]['idArticle'] = $data['inserted'][$key]['idArticle']['idArticle'];
+        }
+        $this->api->stock->delete($articles);
     }
 
     protected function showStock(array $stock)
@@ -64,27 +102,6 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     }
 
     /** @test */
-    public function updatesExistingArticle()
-    {
-        $stocks = $this->api->stock->get();
-        $stock = $stocks['article'][0];
-
-        $article = [
-            'idArticle' => 360675047,
-            'idLanguage' => 1,
-            'comments' => 'Edited through the API',
-            'count' => 1,
-            'price' => 1.24,
-            'condition' => 'NM',
-        ];
-
-        $data = $this->api->stock->update($article);
-        var_dump($data);
-        $stock = $this->api->stock->get();
-        $this->showStock($stock);
-    }
-
-    /** @test */
     public function updatesOneArticle()
     {
         $article = [
@@ -92,17 +109,15 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
             'idLanguage' => 1,
             'comments' => 'Inserted through the API',
             'count' => 1,
-            'price' => 4,
+            'price' => 1,
             'condition' => 'EX',
         ];
 
         $data = $this->api->stock->add($article);
-
-        $stocks = $this->api->stock->get();
-        $stock = $stocks['article'][0];
+        $newArticleId = $data['inserted']['idArticle']['idArticle'];
 
         $article = [
-            'idArticle' => $stock['idArticle'],
+            'idArticle' => $newArticleId,
             'idLanguage' => 1,
             'comments' => 'Edited through the API',
             'count' => 1,
@@ -110,7 +125,52 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
             'condition' => 'NM',
         ];
 
-        $data = $this->api->stock->update($article);
+        $updatedArticle = $this->api->stock->update($article);
+        $this->assertArrayHasKey('updatedArticles', $updatedArticle);
+        $this->assertArrayHasKey('notUpdatedArticles', $updatedArticle);
+
+        $article['idArticle'] = $updatedArticle['updatedArticles']['idArticle'];
+        $this->api->stock->delete($article);
+    }
+
+    /** @test */
+    public function updatesTwoArticles()
+    {
+        $articles = [
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+        ];
+
+        $data = $this->api->stock->add($articles);
+        foreach ($articles as $key => $article) {
+            $articles[$key]['idArticle'] = $data['inserted'][$key]['idArticle']['idArticle'];
+            $articles[$key]['price'] += 0.01;
+        }
+
+        $updatedArticles = $this->api->stock->update($articles);
+
+        $this->assertArrayHasKey('updatedArticles', $updatedArticles);
+        $this->assertArrayHasKey('notUpdatedArticles', $updatedArticles);
+        $this->assertCount(2, $updatedArticles['updatedArticles']);
+
+        foreach ($articles as $key => $article) {
+            $articles[$key]['idArticle'] = $updatedArticles['updatedArticles'][$key]['idArticle'];
+        }
+        $this->api->stock->delete($articles);
     }
 
     /** @test */
@@ -127,27 +187,26 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 
         $data = $this->api->stock->add($article);
 
-        $stocks = $this->api->stock->get();
-        $stock = $stocks['article'][0];
-        $count = $stock['count'];
-
+        $articleId = $data['inserted']['idArticle']['idArticle'];
         $article = [
-            'idArticle' => $stock['idArticle'],
+            'idArticle' => $articleId,
             'amount' => 1,
         ];
         $data = $this->api->stock->increase($article);
-
-        $stock = $this->api->stock->article($stocks['article'][0]['idArticle']);
-        $this->assertEquals(($count + 1), $stock['article']['count']);
+        $this->assertEquals(2, $data['article']['count']);
 
         $data = $this->api->stock->decrease($article);
+        $this->assertEquals(1, $data['article']['count']);
 
-        $stock = $this->api->stock->article($stocks['article'][0]['idArticle']);
-        $this->assertEquals($count, $stock['article']['count']);
-
+        $article = [
+            'idArticle' => $articleId,
+            'count' => 1,
+        ];
+        $this->api->stock->delete($article);
     }
 
     /** @test */
+    // does not work in sandbox
     public function getsCsv()
     {
         $data = $this->api->stock->csv();
@@ -173,38 +232,90 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     {
         $articles = [];
 
-        $stocks = $this->api->stock->get();
-        $article = $stocks['article'][0];
+        $article = [
+            'idProduct' => self::VALID_PRODUCT_ID,
+            'idLanguage' => 1,
+            'comments' => 'Inserted through the API',
+            'count' => 1,
+            'price' => 1,
+            'condition' => 'EX',
+        ];
+
+        $data = $this->api->stock->add($article);
+        $newArticleId = $data['inserted']['idArticle']['idArticle'];
+
         $articles[] = [
-            'idArticle' => $stocks['article'][0]['idArticle'],
+            'idArticle' => $newArticleId,
             'count' => 1,
         ];
 
         $data = $this->api->stock->delete($articles);
-
-        $article = $this->api->stock->article($stocks['article'][0]['idArticle']);
-        var_dump($article);
+        $this->assertArrayHasKey('deleted', $data);
+        $this->assertEquals('true', $data['deleted']['success']);
+        $this->assertEquals('1', $data['deleted']['count']);
+        $this->assertEquals($newArticleId, $data['deleted']['idArticle']);
     }
 
     /** @test */
-    public function deletesAllArticles()
+    public function deletesTwoArticles()
     {
-        $articles = [];
+        $articles = [
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+        ];
 
-        $stocks = $this->api->stock->get();
-
-        foreach ($stocks['article'] as $key => $stock) {
-            $articles[] = [
-                'idArticle' => $stock['idArticle'],
-                'count' => $stock['count'],
-            ];
+        $data = $this->api->stock->add($articles);
+        foreach ($articles as $key => $article) {
+            $articles[$key]['idArticle'] = $data['inserted'][$key]['idArticle']['idArticle'];
         }
 
         $data = $this->api->stock->delete($articles);
 
-        $stocks = $this->api->stock->get();
-        $this->assertCount(0, $stocks['article']);
+        $this->assertArrayHasKey('deleted', $data);
+        $this->assertCount(2, $data['deleted']);
+
+        $this->assertEquals('true', $data['deleted'][0]['success']);
+        $this->assertEquals('1', $data['deleted'][0]['count']);
+        $this->assertEquals($articles[0]['idArticle'], $data['deleted'][0]['idArticle']);
+
+        $this->assertEquals('true', $data['deleted'][1]['success']);
+        $this->assertEquals('1', $data['deleted'][1]['count']);
+        $this->assertEquals($articles[1]['idArticle'], $data['deleted'][1]['idArticle']);
     }
+
+    /** @test */
+    // public function deletesAllArticles()
+    // {
+    //     $articles = [];
+
+    //     $stocks = $this->api->stock->get();
+
+    //     foreach ($stocks['article'] as $key => $stock) {
+    //         $articles[] = [
+    //             'idArticle' => $stock['idArticle'],
+    //             'count' => $stock['count'],
+    //         ];
+    //     }
+
+    //     $data = $this->api->stock->delete($articles);
+
+    //     $stocks = $this->api->stock->get();
+    //     $this->assertCount(0, $stocks['article']);
+    // }
 
 
 }

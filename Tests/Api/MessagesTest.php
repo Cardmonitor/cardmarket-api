@@ -70,8 +70,10 @@ class MessagesTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 
         $data = $this->api->messages->send(1066387, $text);
 
-        $data = $this->api->messages->get(1066387);
-        $this->assertEquals($text, $data['message'][0]['text']);
+        $this->assertArrayHasKey('partner', $data);
+        $this->assertArrayHasKey('message', $data);
+        $this->assertEquals('true', $data['message']['isSending']);
+        $this->assertEquals($text, $data['message']['text']);
     }
 
     /** @test */
