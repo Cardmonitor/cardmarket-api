@@ -61,4 +61,110 @@ class ExpansionTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 
         fclose($file);
     }
+
+    /**
+     * @test
+     */
+    public function getAllCardsAsCsv()
+    {
+        $languages = [
+            1 => 'English',
+            2 => 'French',
+            3 => 'German',
+            4 => 'Spanish',
+            5 => 'Italian',
+        ];
+
+        $expansions_count = 0;
+        $cards_count = 0;
+
+        $expansionsFile = fopen('expansions.csv', 'w');
+        fputcsv($expansionsFile, [
+            'id' => 'ID',
+            'language_1' => '1 English',
+            'language_2' => '2 French',
+            'language_3' => '3 German',
+            'language_4' => '4 Spanish',
+            'language_5' => '5 Italian',
+            'abbreviation' => 'Abbreviation',
+            'icon' => 'Icon',
+            'release_date' => 'Release Date',
+            'is_released' => 'Is Released',
+            'abbreviation' => 'Abbreviation',
+            'game_id' => 'Game ID',
+        ], ';');
+        $cardsFile = fopen('cards.csv', 'w');
+        fputcsv($cardsFile, [
+            'expansion_id' => 'Expansion ID',
+            'product_id' => 'Product ID',
+            'meta_product_id' => 'Metaproduct ID',
+            'reprints_count' => 'Reprints Count',
+            'language_1' => '1 English',
+            'language_2' => '2 French',
+            'language_3' => '3 German',
+            'language_4' => '4 Spanish',
+            'language_5' => '5 Italian',
+            'website' => 'Website',
+            'image' => 'Image',
+            'game_name' => 'Game Name',
+            'category_name' => 'Category Name',
+            'game_id' => 'Game ID',
+            'number' => 'Number',
+            'rarity' => 'Rarity',
+            'expansion_name' => 'Expansion Name',
+            'expansion_icon' => 'Expansion Icon',
+            'articles_count' => 'Articles Count',
+            'articles_foil_count' => 'Article Foil Count',
+        ], ';');
+
+        $expansions = $this->api->expansion->find(self::GAME_ID_MAGIC);
+        foreach ($expansions['expansion'] as $expansion) {
+            // var_dump($expansion);
+            fputcsv($expansionsFile, [
+                'id' => $expansion['idExpansion'],
+                'language_1' => $expansion['localization'][0]['name'],
+                'language_2' => $expansion['localization'][1]['name'],
+                'language_3' => $expansion['localization'][2]['name'],
+                'language_4' => $expansion['localization'][3]['name'],
+                'language_5' => $expansion['localization'][4]['name'],
+                'abbreviation' => $expansion['abbreviation'],
+                'icon' => $expansion['icon'],
+                'release_date' => $expansion['releaseDate'],
+                'is_released' => $expansion['isReleased'],
+                'game_id' => $expansion['idGame'],
+            ], ';');
+            $singles = $this->api->expansion->singles($expansion['idExpansion']);
+            foreach ($singles['single'] as $key => $single) {
+                // var_dump($single);
+                fputcsv($cardsFile, [
+                    'expansion_id' => $expansion['idExpansion'],
+                    'product_id' => $single['idProduct'],
+                    'meta_product_id' => $single['idMetaproduct'],
+                    'reprints_count' => $single['countReprints'],
+                    'language_1' => $single['localization'][0]['name'],
+                    'language_2' => $single['localization'][1]['name'],
+                    'language_3' => $single['localization'][2]['name'],
+                    'language_4' => $single['localization'][3]['name'],
+                    'language_5' => $single['localization'][4]['name'],
+                    'website' => $single['website'],
+                    'image' => $single['image'],
+                    'game_name' => $single['gameName'],
+                    'category_name' => $single['categoryName'],
+                    'game_id' => $single['idGame'],
+                    'number' => $single['number'] ?? '',
+                    'rarity' => $single['rarity'],
+                    'expansion_name' => $single['expansionName'],
+                    'expansion_icon' => $single['expansionIcon'],
+                    'articles_count' => $single['countArticles'],
+                    'articles_foil_count' => $single['countFoils'],
+                ], ';');
+                $cards_count++;
+            }
+            $expansions_count++;
+        }
+
+        echo 'Fertig' . PHP_EOL;
+        echo 'Expansions: ' . $expansions_count . PHP_EOL;
+        echo 'Cards: ' . $cards_count . PHP_EOL;
+    }
 }

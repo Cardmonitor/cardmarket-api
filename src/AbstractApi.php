@@ -41,7 +41,7 @@ abstract class AbstractApi
             'auth'      => 'oauth',
             'base_uri'  => $this->access['url'],
             'handler'   => $stack,
-            'timeout'   => 2.0,
+            'timeout'   => 5.0,
         ]);
     }
 
