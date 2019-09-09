@@ -27,14 +27,14 @@
 
         public function send(int $orderId)
         {
-            return $thid->_put('order/' . $orderId, [], [
+            return $this->_put('order/' . $orderId, [], [
                 'action' => 'send'
             ]);
         }
 
         public function requestCancellation(int $orderId, string $reason, bool $relistItems = false)
         {
-            return $thid->_put('order/' . $orderId, [], [
+            return $this->_put('order/' . $orderId, [], [
                 'action' => 'requestCancellation',
                 'reason' => $reason,
                 'relistItems' => $relistItems ? 'true' : 'false',
@@ -43,14 +43,14 @@
 
         public function setTrackingNumber(int $orderId, string $trackingNumber)
         {
-            return $thid->_put('order/' . $orderId . '/tracking', [], [
+            return $this->_put('order/' . $orderId . '/tracking', [], [
                 'trackingNumber' => $trackingNumber
             ]);
         }
 
         public function evaluate(int $orderId, array $evaluation)
         {
-            return $thid->_put('order/' . $orderId . '/evaluation', [], $evaluation);
+            return $this->_put('order/' . $orderId . '/evaluation', [], $evaluation);
         }
 
     }
