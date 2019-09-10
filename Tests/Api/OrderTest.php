@@ -31,6 +31,15 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $this->assertArrayHasKey('order', $data);
     }
 
+    /**
+     * @test
+     */
+    public function marksOrderAsSend()
+    {
+        $data = $this->api->order->send(65327252);
+        var_dump($data);
+    }
+
     /** @test */
     public function getOneOrder()
     {

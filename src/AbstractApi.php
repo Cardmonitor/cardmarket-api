@@ -115,7 +115,32 @@ abstract class AbstractApi
     {
         $xml = simplexml_load_string($xmlstring, "SimpleXMLElement", LIBXML_NOCDATA);
         $json = json_encode($xml);
-        return json_decode($json, true);
+        $array = json_decode($json, true);
+        array_walk_recursive($array, function (&$item, $key) {
+            if ($item == 'true') {
+                $item = true;
+            }
+            elseif ($item == 'false') {
+                $item = false;
+            }
+        });
+
+        return $this->emptyArrayToString($array);
+    }
+
+    protected function emptyArrayToString($haystack)
+    {
+        foreach ($haystack as $key => $value) {
+            if (is_array($value)) {
+                $haystack[$key] = $this->emptyArrayToString($haystack[$key]);
+            }
+
+            if (is_array($haystack[$key]) && empty($haystack[$key])) {
+                $haystack[$key] = '';
+            }
+        }
+
+        return $haystack;
     }
 
 }

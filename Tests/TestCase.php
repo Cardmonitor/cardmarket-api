@@ -13,6 +13,6 @@ class TestCase extends PHPUnitTestCase
     {
         require('access.php');
 
-        $this->api = new Api($accessSandboxTaces2 + ['url' => Api::URL_SANDBOX]);
+        $this->api = new Api($accessSandbox + ['url' => Api::URL_SANDBOX]);
     }
 }
