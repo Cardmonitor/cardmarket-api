@@ -14,8 +14,8 @@ abstract class AbstractApi
 {
     protected $access;
     protected $api;
-    protected $basePath = 'ws/v2.0/';
-    protected $debug = false;
+    protected $basePath = 'ws/v' . Api::VERSION . '/';
+    protected $debug = true;
 
     public function __construct(Api $api, array $access)
     {
@@ -30,8 +30,8 @@ abstract class AbstractApi
         $middleware = new Oauth1([
             'consumer_key'    => $this->access['app_token'],
             'consumer_secret' => $this->access['app_secret'],
-            'token'           => $this->access['access_token'],
-            'token_secret'    => $this->access['access_token_secret'],
+            'token'           => $this->access['access_token'] ?? '',
+            'token_secret'    => $this->access['access_token_secret'] ?? '',
             'realm'           => $this->access['url'] . '/' . $this->basePath . $path,
         ]);
 
@@ -107,8 +107,10 @@ abstract class AbstractApi
     protected function setRequestLimit(Response $response) : void
     {
         $headers = $response->getHeaders();
-        $this->api->setRequestLimitCount($headers['X-Request-Limit-Count'][0]);
-        $this->api->setRequestLimitMax($headers['X-Request-Limit-Max'][0]);
+        if (array_key_exists('X-Request-Limit-Max', $headers)) {
+            $this->api->setRequestLimitCount($headers['X-Request-Limit-Count'][0]);
+            $this->api->setRequestLimitMax($headers['X-Request-Limit-Max'][0]);
+        }
     }
 
     protected function xmlToArray(string $xmlstring) : array

@@ -10,6 +10,8 @@
         const URL_API = 'https://api.cardmarket.com';
         const URL_SANDBOX = 'https://sandbox.cardmarket.com';
 
+        const VERSION = '2.0';
+
         protected $client;
 
         protected $requestLimitMax = 0;
@@ -19,6 +21,7 @@
         {
             $access['url'] = $this->getUrl($access['url'] ?? '');
 
+            $this->access = new Access($this, $access);
             $this->account = new Account($this, $access);
             $this->expansion = new Expansion($this, $access);
             $this->messages = new Messages($this, $access);
