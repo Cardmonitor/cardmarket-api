@@ -15,12 +15,13 @@ abstract class AbstractApi
     protected $access;
     protected $api;
     protected $basePath = 'ws/v' . Api::VERSION . '/';
-    protected $debug = true;
+    protected $debug = false;
 
     public function __construct(Api $api, array $access)
     {
         $this->access = $access;
         $this->api = $api;
+        $this->debug = $access['debug'] ?? false;
     }
 
     protected function getClient(string $path) {
