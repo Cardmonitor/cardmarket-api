@@ -35,5 +35,10 @@
             ]);
         }
 
+        public function logout()
+        {
+            return $this->_post('account/logout', []);
+        }
+
     }
 ?>

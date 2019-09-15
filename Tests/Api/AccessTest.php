@@ -9,6 +9,7 @@ class AccessTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function it_gets_the_login_link()
     {
+        echo $this->api->access->link();
         $this->assertEquals($this->accessData['url'] . '/ws/v2.0/authenticate/' . $this->accessData['app_token'] . '/de', $this->api->access->link());
     }
 
@@ -19,7 +20,7 @@ class AccessTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     {
         $data = $this->api->access->token($this->accessData['request_token']);
 
-        // var_dump($data);
+        var_dump($data);
         $this->assertArrayHasKey('oauth_token', $data);
         $this->assertArrayHasKey('oauth_token_secret', $data);
         $this->assertArrayHasKey('account', $data);
