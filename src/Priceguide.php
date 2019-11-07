@@ -6,7 +6,9 @@
     {
         public function csv(int $gameId = 1)
         {
-            return $this->_get('priceguide?idGame=' . $gameId);
+            return $this->_get('priceguide', [
+                'idGame' => $gameId,
+            ]);
         }
     }
 
