@@ -36,7 +36,7 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     public function getsProduct()
     {
         $data = $this->api->product->get(self::VALID_PRODUCT_ID);
-
+        var_dump($data);
         $this->assertArrayHasKey('product', $data);
         $this->assertArrayHasKey('priceGuide', $data['product']);
         $this->assertEquals(self::VALID_PRODUCT_ID, $data['product']['idProduct']);

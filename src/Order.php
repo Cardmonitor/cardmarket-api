@@ -20,9 +20,9 @@
             return $this->_get('order/' . $orderId);
         }
 
-        public function find(string $actor = 'seller', string $state = 'bought', int $start = 0)
+        public function find(string $actor = 'seller', string $state = 'bought', int $start = 1)
         {
-            return $this->_get('orders/' . $actor . '/' . $state . ($start ? '/' . $start : ''));
+            return $this->_get('orders/' . $actor . '/' . $state . '/' . $start);
         }
 
         public function send(int $orderId)
