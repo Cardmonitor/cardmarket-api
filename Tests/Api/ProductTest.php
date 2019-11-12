@@ -3,6 +3,7 @@
 namespace Cardmonitor\Cardmarket\Tests\Api;
 
 use Cardmonitor\Cardmarket\Product;
+use GuzzleHttp\Client;
 
 class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 {
@@ -36,7 +37,7 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     public function getsProduct()
     {
         $data = $this->api->product->get(self::VALID_PRODUCT_ID);
-        var_dump($data);
+        $this->api->product->download(substr($data['product']['image'], 1), './test.jpg');
         $this->assertArrayHasKey('product', $data);
         $this->assertArrayHasKey('priceGuide', $data['product']);
         $this->assertEquals(self::VALID_PRODUCT_ID, $data['product']['idProduct']);
