@@ -26,8 +26,19 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     /** @test */
     public function findsAllSoldReceivedOrders()
     {
-        $data = $this->api->order->find(Order::ACTOR_SELLER, ORDER::STATE_RECEIVED);
-        var_dump($data);
+        $orders = [];
+        $start = 1;
+        do {
+            $data = $this->api->order->find(Order::ACTOR_SELLER, ORDER::STATE_RECEIVED, $start);
+            if (is_array($data)) {
+                $orders += $data['order'];
+                $start += 100;
+            }
+        }
+        while (! is_null($data));
+
+        var_dump(count($orders));
+        // var_dump($orders);
         $this->assertArrayHasKey('order', $data);
     }
 
