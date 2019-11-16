@@ -20,7 +20,11 @@
 
         public function csv(int $gameId = 1, bool $isSealed = false, int $languageId = 1)
         {
-            return $this->_get('stock/file?idGame=' . $gameId . '&isSealed=' . ($isSealed ? 'true' : 'false') . '&idLanguage=' . $languageId);
+            return $this->_get('stock/file', [
+                'idGame' => $gameId,
+                'isSealed' => ($isSealed ? 'true' : 'false'),
+                'idLanguage' => $languageId,
+            ]);
         }
 
         public function delete(array $articles)
