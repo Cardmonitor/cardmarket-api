@@ -42,6 +42,14 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $this->assertArrayHasKey('order', $data);
     }
 
+    /** @test */
+    public function findsAllSoldCancelledOrders()
+    {
+        $data = $this->api->order->find(Order::ACTOR_SELLER, ORDER::STATE_CANCELLED);
+        var_dump($data);
+        $this->assertArrayHasKey('order', $data);
+    }
+
     /**
      * @test
      */
