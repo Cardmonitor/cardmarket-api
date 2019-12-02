@@ -126,6 +126,7 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         ];
 
         $updatedArticle = $this->api->stock->update($article);
+
         $this->assertArrayHasKey('updatedArticles', $updatedArticle);
         $this->assertArrayHasKey('notUpdatedArticles', $updatedArticle);
 
@@ -166,6 +167,56 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $this->assertArrayHasKey('updatedArticles', $updatedArticles);
         $this->assertArrayHasKey('notUpdatedArticles', $updatedArticles);
         $this->assertCount(2, $updatedArticles['updatedArticles']);
+
+        foreach ($articles as $key => $article) {
+            $articles[$key]['idArticle'] = $updatedArticles['updatedArticles'][$key]['idArticle'];
+        }
+        $this->api->stock->delete($articles);
+    }
+
+    /** @test */
+    public function updatesTwoArticlesWithErrors()
+    {
+        $articles = [
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.05,
+                'condition' => 'EX',
+            ],
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.03,
+                'condition' => 'EX',
+            ],
+        ];
+
+        $data = $this->api->stock->add($articles);
+        foreach ($articles as $key => $article) {
+            $articles[$key]['idArticle'] = $data['inserted'][$key]['idArticle']['idArticle'];
+            $articles[$key]['price'] -= 0.02;
+        }
+
+        $updatedArticles = $this->api->stock->update($articles);
+
+        $this->assertArrayHasKey('updatedArticles', $updatedArticles);
+        $this->assertArrayHasKey('notUpdatedArticles', $updatedArticles);
+
+        $this->assertCount(1, $updatedArticles['updatedArticles']);
+        $this->assertCount(1, $updatedArticles['notUpdatedArticles']);
 
         foreach ($articles as $key => $article) {
             $articles[$key]['idArticle'] = $updatedArticles['updatedArticles'][$key]['idArticle'];

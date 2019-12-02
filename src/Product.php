@@ -11,7 +11,11 @@ use GuzzleHttp\Subscriber\Oauth\Oauth1;
     {
         public function csv(int $gameId = 1, bool $isSealed = false, int $languageId = 1)
         {
-            return $this->_get('productlist?idGame=' . $gameId . '&isSealed=' . ($isSealed ? 'true' : 'false') . '&idLanguage=' . $languageId);
+            return $this->_get('productlist', [
+                'idGame' => $gameId,
+                'isSealed' => ($isSealed ? 'true' : 'false'),
+                'idLanguage' => $languageId,
+            ]);
         }
 
         // max 100 entries

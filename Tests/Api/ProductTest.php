@@ -27,7 +27,7 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 
         $this->assertFileExists($filename);
 
-        unlink($filename);
+        // unlink($filename);
         unlink($zippedFilename);
     }
 
