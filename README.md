@@ -1,8 +1,11 @@
 # Wrapper for Cardmarket.com API
 
 [Cardmonitor](https://www.cardmonitor.de)
+
 [Cardmarket](https://www.cardmarket.com)
+
 [API Documentation](https://api.cardmarket.com/ws/documentation/API_2.0:Main_Page)
+
 
 ## Installation
 
