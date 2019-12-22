@@ -24,10 +24,10 @@ $config = [
     'access_token' => 'access_token',
     'access_token_secret' => 'access_token_secret',
     'debug' => false,
-    'url' => Api::URL_API
+    'url' => Cardmonitor\Cardmarket\Api::URL_API
 ];
 
-$api = new Api($config);
+$api = new Cardmonitor\Cardmarket\Api($config);
 ```
 
 ## Usage
