@@ -4,6 +4,7 @@ namespace Cardmonitor\Cardmarket;
 
 use Cardmonitor\Cardmarket\Api;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -16,6 +17,8 @@ abstract class AbstractApi
     protected $api;
     protected $basePath = 'ws/v' . Api::VERSION . '/';
     protected $debug = false;
+
+    protected $tries = 0;
 
     public function __construct(Api $api, array $access)
     {
@@ -83,13 +86,27 @@ abstract class AbstractApi
 
     protected function _put(string $path, array $parameters, array $xmlParameters = [])
     {
+        $xmlParametersCount = count($xmlParameters);
+
         $request = new Request(
             'PUT',
             $this->basePath . $path . (count($parameters) > 0 ? '?' . http_build_query($parameters) : ''),
             ['Content-Type' => 'text/xml; charset=UTF8'],
-            count($xmlParameters) ? ArrayToXml::convert($xmlParameters, 'request') : null,
+            $xmlParametersCount ? ArrayToXml::convert($xmlParameters, 'request') : null,
         );
-        $response = $this->getClient($path)->send($request);
+        $response = $this->getClient($path)->send($request, [
+            'debug' => $this->debug
+        ]);
+
+        if ($this->debug) {
+            if ($xmlParametersCount) {
+                echo 'Request Body';
+                echo ArrayToXml::convert($xmlParameters, 'request');
+            }
+
+            echo $response->getBody();
+        }
+
         $this->setRequestLimit($response);
 
         return $this->xmlToArray($response->getBody());
@@ -97,8 +114,26 @@ abstract class AbstractApi
 
     protected function request(string $method, string $path = '', array $parameters = [])
     {
+        try {
+            $response = $this->getClient($path)->$method($this->basePath . $path, [ 'query' => $parameters, 'debug' => $this->debug ]);
+        }
+        catch (ConnectException $e) {
+            $this->tries++;
 
-        $response = $this->getClient($path)->$method($this->basePath . $path, [ 'query' => $parameters, 'debug' => $this->debug ]);
+            if ($this->tries <= 3) {
+                sleep(1);
+                $response = $this->getClient($path)->$method($this->basePath . $path, [ 'query' => $parameters, 'debug' => $this->debug ]);
+            }
+            else {
+                throw $e;
+            }
+
+        }
+
+        if ($this->debug) {
+            echo $response->getBody();
+        }
+
         $this->setRequestLimit($response);
 
         return json_decode($response->getBody(), true);
