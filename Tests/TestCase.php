@@ -13,7 +13,7 @@ class TestCase extends PHPUnitTestCase
     {
         require('access.php');
 
-        $this->accessData = $access3rdParty + ['url' => Api::URL_SANDBOX];
+        $this->accessData = $accessSandbox + ['url' => Api::URL_SANDBOX];
         $this->api = new Api($this->accessData);
     }
 }

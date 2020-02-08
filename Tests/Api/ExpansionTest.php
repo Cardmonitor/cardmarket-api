@@ -8,6 +8,7 @@ class ExpansionTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 {
     const EXPANSION_ID = 1469;
     const GAME_ID_MAGIC = 1;
+    const GAME_ID_YUGIOH = 3;
 
     /** @test */
     public function findsAllExpansionsForAGame()

@@ -175,6 +175,49 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     }
 
     /** @test */
+    public function updatesTwoNotExsistingArticles()
+    {
+        $articles = [
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+            [
+                'idProduct' => self::VALID_PRODUCT_ID,
+                'idLanguage' => 1,
+                'comments' => 'Inserted through the API',
+                'count' => 1,
+                'price' => 0.02,
+                'condition' => 'EX',
+            ],
+        ];
+
+        $data = $this->api->stock->add($articles);
+        foreach ($articles as $key => $article) {
+            $articles[$key]['idArticle'] = -1;
+            $articles[$key]['price'] += 0.01;
+        }
+
+        $updatedArticles = $this->api->stock->update($articles);
+
+        var_dump($updatedArticles);
+        exit;
+
+        $this->assertArrayHasKey('updatedArticles', $updatedArticles);
+        $this->assertArrayHasKey('notUpdatedArticles', $updatedArticles);
+        $this->assertCount(2, $updatedArticles['updatedArticles']);
+
+        foreach ($articles as $key => $article) {
+            $articles[$key]['idArticle'] = $updatedArticles['updatedArticles'][$key]['idArticle'];
+        }
+        $this->api->stock->delete($articles);
+    }
+
+    /** @test */
     public function updatesTwoArticlesWithErrors()
     {
         $articles = [
