@@ -1,0 +1,123 @@
+{
+  "order": {
+    "idOrder": 65350366,
+    "isBuyer": true,
+    "seller": {
+      "idUser": 1772201,
+      "username": "a2f9ed49364fd784bcbc0ed5cdcfb605",
+      "registrationDate": "2016-07-13T23:14:51+0200",
+      "isCommercial": 1,
+      "isSeller": true,
+      "name": {
+        "company": null,
+        "firstName": "Peter",
+        "lastName": "Parker"
+      },
+      "address": {
+        "name": "Peter Parker",
+        "extra": null,
+        "street": "187 Chrystie Street",
+        "zip": "10002",
+        "city": "Manhatten",
+        "country": "D"
+      },
+      "phone": "490179",
+      "email": "bdf347bd205ded02b8122952a07d4368@cardmarket.com",
+      "vat": null,
+      "legalInformation": "",
+      "riskGroup": 0,
+      "lossPercentage": "0 - 2%",
+      "unsentShipments": 2,
+      "reputation": 1,
+      "shipsFast": 0,
+      "sellCount": 6454,
+      "soldItems": 36126,
+      "avgShippingTime": 1,
+      "onVacation": false
+    },
+    "buyer": {
+      "idUser": 65063782,
+      "username": "sundermeier",
+      "registrationDate": "2018-11-19T15:06:15+0100",
+      "isCommercial": 0,
+      "isSeller": true,
+      "name": {
+        "firstName": "Daniel"
+      },
+      "address": {
+        "name": "Daniel Sundermeier",
+        "extra": null,
+        "street": "Forststraße 31",
+        "zip": "32423",
+        "city": "Minden",
+        "country": "D"
+      },
+      "phone": "",
+      "email": "",
+      "vat": "",
+      "legalInformation": "",
+      "riskGroup": 0,
+      "lossPercentage": "0 - 2%",
+      "unsentShipments": 0,
+      "reputation": 3,
+      "shipsFast": 0,
+      "sellCount": 25,
+      "soldItems": 32,
+      "avgShippingTime": 3,
+      "onVacation": false
+    },
+    "state": {
+      "state": "paid",
+      "dateBought": "2019-08-23T14:30:04+0200",
+      "datePaid": "2019-08-23T14:30:04+0200"
+    },
+    "shippingMethod": {
+      "idShippingMethod": 291986,
+      "name": "Standardbrief",
+      "price": 1,
+      "isLetter": true,
+      "isInsured": false
+    },
+    "isPresale": false,
+    "shippingAddress": {
+      "name": "Daniel Sundermeier",
+      "extra": null,
+      "street": "Forststraße 31",
+      "zip": "32423",
+      "city": "Minden",
+      "country": "D"
+    },
+    "articleCount": 1,
+    "article": [
+      {
+        "idArticle": 360675044,
+        "idProduct": 362684,
+        "language": {
+          "idLanguage": 1,
+          "languageName": "English"
+        },
+        "comments": "",
+        "price": 0.17,
+        "count": 1,
+        "inShoppingCart": false,
+        "product": {
+          "idGame": 1,
+          "enName": "Clue Token // Construct Token (C 6/12)",
+          "locName": "Clue Token // Construct Token (C 6/12)",
+          "image": "./img/items/1/C18/362684.jpg",
+          "expansion": "Commander 2018",
+          "nr": "T 19/21",
+          "expIcon": "460",
+          "rarity": "Token"
+        },
+        "condition": "NM",
+        "isFoil": false,
+        "isSigned": false,
+        "isPlayset": false,
+        "isAltered": false
+      }
+    ],
+    "articleValue": 0.17,
+    "totalValue": 1.17
+  }
+}

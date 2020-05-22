@@ -7,15 +7,20 @@ use GuzzleHttp\Client;
 
 class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 {
-    const VALID_PRODUCT_ID = 265535;
+    const VALID_PRODUCT_ID = 265882;
 
     /** @test */
     public function getsCsv()
     {
+        $this->markTestSkipped('No data from Cardmarket');
+
         $data = $this->api->product->csv();
 
         $filename = 'products.csv';
         $zippedFilename = $filename . '.gz';
+
+        $this->assertFileNotExists($zippedFilename);
+        $this->assertFileNotExists($filename);
 
         $handle = fopen($zippedFilename, 'wa+');
         fwrite( $handle, base64_decode( $data['productsfile'] ) );
@@ -27,7 +32,7 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 
         $this->assertFileExists($filename);
 
-        // unlink($filename);
+        unlink($filename);
         unlink($zippedFilename);
     }
 
@@ -36,11 +41,32 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function getsProduct()
     {
-        $data = $this->api->product->get(self::VALID_PRODUCT_ID);
-        $this->api->product->download(substr($data['product']['image'], 1), './test.jpg');
+        $product = json_decode(file_get_contents('Tests/responses/product/get.json'), true);
+        $productId = $product['product']['idProduct'];
+
+        $data = $this->api->product->get($productId);
+
+        $this->assertEquals($productId, $data['product']['idProduct']);
         $this->assertArrayHasKey('product', $data);
-        $this->assertArrayHasKey('priceGuide', $data['product']);
-        $this->assertEquals(self::VALID_PRODUCT_ID, $data['product']['idProduct']);
+        foreach ($product['product'] as $key => $value) {
+            $this->assertArrayHasKey($key, $data['product']);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_download_the_image_of_a_product()
+    {
+        $product = json_decode(file_get_contents('Tests/responses/product/get.json'), true);
+        $filename = './test.jpg';
+
+        $this->assertFileNotExists($filename);
+
+        $this->api->product->download(substr($product['product']['image'], 1), $filename);
+
+        $this->assertFileExists($filename);
+        unlink($filename);
     }
 
     /**
@@ -55,6 +81,8 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         ]);
         $this->assertArrayHasKey('product', $data);
         $this->assertCount(2, $data['product']);
+
+        var_dump($data);
     }
 
 }

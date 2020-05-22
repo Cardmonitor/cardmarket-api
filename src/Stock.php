@@ -36,6 +36,11 @@
             return $this->_delete('stock', $parameters);
         }
 
+        public function find(string $name, int $gameId = 1)
+        {
+            return $this->_get('stock/articles/' . $name . '/' . $gameId);
+        }
+
         // max 100 entries
         public function get(int $start = 0)
         {

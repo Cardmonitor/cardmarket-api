@@ -1,0 +1,76 @@
+{
+  "article": {
+    "idArticle": 361149040,
+    "idProduct": 10537,
+    "language": {
+      "idLanguage": 3,
+      "languageName": "German"
+    },
+    "comments": "",
+    "price": 48.37,
+    "count": 2,
+    "inShoppingCart": false,
+    "lastEdited": "2020-05-21T07:41:35+0200",
+    "condition": "EX",
+    "isFoil": false,
+    "isSigned": false,
+    "isPlayset": false,
+    "isAltered": false
+  },
+  "product": {
+    "idProduct": 10537,
+    "idMetaproduct": 6047,
+    "countReprints": 1,
+    "enName": "Tolarian Academy",
+    "locName": "Tolarian Academy",
+    "localization": [
+      {
+        "name": "Tolarian Academy",
+        "idLanguage": "1",
+        "languageName": "English"
+      },
+      {
+        "name": "Académie Tolariane",
+        "idLanguage": "2",
+        "languageName": "French"
+      },
+      {
+        "name": "Akademie von Tolaria",
+        "idLanguage": "3",
+        "languageName": "German"
+      },
+      {
+        "name": "Academia tolariana",
+        "idLanguage": "4",
+        "languageName": "Spanish"
+      },
+      {
+        "name": "Accademia di Tolaria",
+        "idLanguage": "5",
+        "languageName": "Italian"
+      }
+    ],
+    "website": "/en/Magic/Products/Singles/Urza%27s+Saga/Tolarian-Academy",
+    "image": "./img/items/1/USG/10537.jpg",
+    "gameName": "Magic the Gathering",
+    "categoryName": "Magic Single",
+    "idGame": "1",
+    "number": "330",
+    "rarity": "Rare",
+    "expansion": {
+      "idExpansion": 26,
+      "enName": "Urza's Saga",
+      "expansionIcon": 24
+    },
+    "priceGuide": {
+      "SELL": 44.11,
+      "LOW": 34.93,
+      "LOWEX": 39.99,
+      "LOWFOIL": 0,
+      "AVG": 58.55,
+      "TREND": 48.37
+    },
+    "countArticles": 357,
+    "countFoils": 0
+  }
+}

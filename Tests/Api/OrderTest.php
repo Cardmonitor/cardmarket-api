@@ -38,7 +38,7 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         while (! is_null($data));
 
         var_dump(count($orders));
-        // var_dump($orders);
+        var_dump($orders);
         $this->assertArrayHasKey('order', $data);
     }
 
@@ -55,30 +55,29 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function marksOrderAsSend()
     {
-        $data = $this->api->order->send(65327252);
+        $data = $this->api->order->send(65105546);
         var_dump($data);
     }
 
     /** @test */
     public function getOneOrder()
     {
-        $article = [
-            'idProduct' => self::VALID_PRODUCT_ID,
-            'idLanguage' => 1,
-            'comments' => 'Inserted through the API',
-            'count' => 1,
-            'price' => 4,
-            'condition' => 'EX',
-        ];
+        $orderId = 65357358;
+        $data = $this->api->order->get($orderId);
+        var_dump(json_encode($data));
+        var_dump($data['order']['article'][0]);
+        $this->assertArrayHasKey('order', $data);
+        $this->assertEquals($orderId, $data['order']['idOrder']);
+    }
 
-        $data = $this->api->stock->add($article);
-
-        $stocks = $this->api->stock->get();
-        $stock = $stocks['article'][0];
-
-        $data = $this->api->stock->article($stock['idArticle']);
+    /**
+     * @test
+     */
+    public function it_sets_a_trackingnumber_for_an_order()
+    {
+        $orderId = 65007180;
+        $data = $this->api->order->setTrackingNumber($orderId, '123456789');
         var_dump($data);
-        $this->assertArrayHasKey('article', $data);
     }
 
 }

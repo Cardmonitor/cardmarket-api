@@ -22,11 +22,13 @@ class ExpansionTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     /** @test */
     public function getsAllSinglesForAnExtension()
     {
-        $data = $this->api->expansion->singles(self::EXPANSION_ID);
-
+        $data = $this->api->expansion->singles(2487);
+        var_dump(array_keys($data));
         $this->assertArrayHasKey('expansion', $data);
         $this->assertArrayHasKey('single', $data);
-        var_dump(basename($data['single'][100]['website']));
+        foreach ($data['single'] as $key => $value) {
+            // $this->api->product->download(substr($value['image'], 1), './test.jpg');
+        }
 
     }
 

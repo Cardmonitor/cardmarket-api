@@ -1,0 +1,32 @@
+{
+    "article": [
+        {
+          "idArticle": 361141450,
+          "idProduct": 10537,
+          "language": {
+            "idLanguage": 3,
+            "languageName": "German"
+          },
+          "comments": "",
+          "price": 48.37,
+          "count": 1,
+          "inShoppingCart": false,
+          "product": {
+            "idGame": 1,
+            "enName": "Tolarian Academy",
+            "locName": "Akademie von Tolaria",
+            "image": "./img/items/1/USG/10537.jpg",
+            "expansion": "Urzas Saga",
+            "nr": "330",
+            "expIcon": "24",
+            "rarity": "Rare"
+          },
+          "lastEdited": "2020-05-09T14:37:32+0200",
+          "condition": "GD",
+          "isFoil": false,
+          "isSigned": false,
+          "isPlayset": false,
+          "isAltered": false
+        }
+    ]
+}

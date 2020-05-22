@@ -1,0 +1,121 @@
+{
+  "order": {
+    "idOrder": 65357358,
+    "isBuyer": false,
+    "seller": {
+      "idUser": 65063782,
+      "username": "sundermeier",
+      "registrationDate": "2018-11-19T15:06:15+0100",
+      "isCommercial": 0,
+      "isSeller": true,
+      "name": {
+        "firstName": "Daniel"
+      },
+      "address": {
+        "name": "Daniel Sundermeier",
+        "extra": null,
+        "street": "Forststraße 31",
+        "zip": "32423",
+        "city": "Minden",
+        "country": "D"
+      },
+      "phone": "",
+      "email": "",
+      "vat": "",
+      "legalInformation": "",
+      "riskGroup": 0,
+      "lossPercentage": "0 - 2%",
+      "unsentShipments": 0,
+      "reputation": 3,
+      "shipsFast": 0,
+      "sellCount": 25,
+      "soldItems": 32,
+      "avgShippingTime": 3,
+      "onVacation": false
+    },
+    "buyer": {
+      "idUser": 65147139,
+      "username": "taces2Verkaeufer",
+      "registrationDate": "2019-08-30T07:42:19+0200",
+      "isCommercial": 0,
+      "isSeller": true,
+      "name": {
+        "firstName": "Daniel"
+      },
+      "address": {
+        "name": "Daniel Sundermeier",
+        "extra": null,
+        "street": "Forststraße 31",
+        "zip": "32423",
+        "city": "Minden",
+        "country": "D"
+      },
+      "phone": "",
+      "email": "",
+      "vat": "",
+      "legalInformation": "",
+      "riskGroup": 1,
+      "lossPercentage": "0 - 2%",
+      "unsentShipments": 0,
+      "reputation": 0,
+      "shipsFast": 0,
+      "sellCount": 0,
+      "soldItems": 0,
+      "avgShippingTime": 0,
+      "onVacation": false
+    },
+    "state": {
+      "state": "paid",
+      "dateBought": "2020-05-16T11:14:13+0200",
+      "datePaid": "2020-05-16T11:14:13+0200"
+    },
+    "shippingMethod": {
+      "idShippingMethod": 291986,
+      "name": "Standardbrief",
+      "price": 1,
+      "isLetter": true,
+      "isInsured": false
+    },
+    "isPresale": false,
+    "shippingAddress": {
+      "name": "Daniel Sundermeier",
+      "extra": null,
+      "street": "Forststraße 31",
+      "zip": "32423",
+      "city": "Minden",
+      "country": "D"
+    },
+    "articleCount": 1,
+    "article": [
+      {
+        "idArticle": 361144873,
+        "idProduct": 265535,
+        "language": {
+          "idLanguage": 1,
+          "languageName": "English"
+        },
+        "comments": "Inserted through the API",
+        "price": 1,
+        "count": 1,
+        "inShoppingCart": false,
+        "product": {
+          "idGame": 1,
+          "enName": "Springleaf Drum",
+          "locName": "Springleaf Drum",
+          "image": "./img/items/1/BNG/265535.jpg",
+          "expansion": "Born of the Gods",
+          "nr": "162",
+          "expIcon": "246",
+          "rarity": "Uncommon"
+        },
+        "condition": "EX",
+        "isFoil": false,
+        "isSigned": false,
+        "isPlayset": false,
+        "isAltered": false
+      }
+    ],
+    "articleValue": 1,
+    "totalValue": 2
+  }
+}

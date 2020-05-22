@@ -1,0 +1,70 @@
+{
+  "product": {
+    "idProduct": 265882,
+    "idMetaproduct": 209344,
+    "countReprints": 1,
+    "enName": "Shrike Harpy",
+    "locName": "Shrike Harpy",
+    "localization": [
+      {
+        "name": "Shrike Harpy",
+        "idLanguage": "1",
+        "languageName": "English"
+      },
+      {
+        "name": "Harpie grièche",
+        "idLanguage": "2",
+        "languageName": "French"
+      },
+      {
+        "name": "Würgerharpyie",
+        "idLanguage": "3",
+        "languageName": "German"
+      },
+      {
+        "name": "Arpía impía",
+        "idLanguage": "4",
+        "languageName": "Spanish"
+      },
+      {
+        "name": "Arpia Avèrla",
+        "idLanguage": "5",
+        "languageName": "Italian"
+      }
+    ],
+    "website": "/en/Magic/Products/Singles/Born+of+the+Gods/Shrike-Harpy",
+    "image": "./img/items/1/BNG/265882.jpg",
+    "gameName": "Magic the Gathering",
+    "categoryName": "Magic Single",
+    "idGame": "1",
+    "number": "83",
+    "rarity": "Uncommon",
+    "expansion": {
+      "idExpansion": 1469,
+      "enName": "Born of the Gods",
+      "expansionIcon": 246
+    },
+    "priceGuide": {
+      "SELL": 0.03,
+      "LOW": 0.01,
+      "LOWEX": 0.01,
+      "LOWFOIL": 0.03,
+      "AVG": 0.13,
+      "TREND": 0.05
+    },
+    "countArticles": 3951,
+    "countFoils": 164,
+    "links": [
+      {
+        "rel": "self",
+        "href": "/products/265882",
+        "method": "GET"
+      },
+      {
+        "rel": "articles",
+        "href": "/articles/265882",
+        "method": "GET"
+      }
+    ]
+  }
+}

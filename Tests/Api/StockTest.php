@@ -2,6 +2,8 @@
 
 namespace Cardmonitor\Cardmarket\Tests\Api;
 
+use Cardmonitor\Cardmarket\Stock;
+
 class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 {
 
@@ -27,13 +29,18 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
             'condition' => 'EX',
         ];
 
-        $data = $this->api->stock->add($article);
+        // $data = $this->api->stock->add($article);
+        $stub = $this->createMock(Stock::class);
+        $stub->method('get')
+            ->willReturn(json_decode(file_get_contents('Tests/responses/stock/get.json'), true));
+
+        $this->api->stock = $stub;
 
         $stocks = $this->api->stock->get();
         $stock = $stocks['article'][0];
 
         $data = $this->api->stock->article($stock['idArticle']);
-        $this->assertArrayHasKey('article', $data);
+        $this->assertArrayHasKey('article', $stocks);
     }
 
     /** @test */
@@ -389,6 +396,28 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $this->assertEquals('true', $data['deleted'][1]['success']);
         $this->assertEquals('1', $data['deleted'][1]['count']);
         $this->assertEquals($articles[1]['idArticle'], $data['deleted'][1]['idArticle']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_one_article()
+    {
+        $data = $this->api->stock->article(361149040);
+        echo json_encode($data);
+        var_dump($data);
+    }
+
+    /**
+     * @test
+     */
+    public function it_finds_articles_by_name()
+    {
+        $this->markTestIncomplete('does not work reliably');
+
+        $name = 'Wrecking-Ogre';
+        $data = $this->api->stock->find($name);
+        var_dump($data);
     }
 
     /** @test */
