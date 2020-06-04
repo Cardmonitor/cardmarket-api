@@ -62,7 +62,7 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     /** @test */
     public function getOneOrder()
     {
-        $orderId = 65357358;
+        $orderId = 65407374;
         $data = $this->api->order->get($orderId);
         var_dump(json_encode($data));
         var_dump($data['order']['article'][0]);

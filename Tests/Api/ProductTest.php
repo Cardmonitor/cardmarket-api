@@ -14,9 +14,10 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     {
         $this->markTestSkipped('No data from Cardmarket');
 
-        $data = $this->api->product->csv();
+        $gameId = 6;
+        $data = $this->api->product->csv($gameId);
 
-        $filename = 'products.csv';
+        $filename = 'products-' . $gameId . '.csv';
         $zippedFilename = $filename . '.gz';
 
         $this->assertFileNotExists($zippedFilename);
@@ -33,7 +34,6 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $this->assertFileExists($filename);
 
         unlink($filename);
-        unlink($zippedFilename);
     }
 
     /**
@@ -45,6 +45,7 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $productId = $product['product']['idProduct'];
 
         $data = $this->api->product->get($productId);
+        var_dump($data);
 
         $this->assertEquals($productId, $data['product']['idProduct']);
         $this->assertArrayHasKey('product', $data);
