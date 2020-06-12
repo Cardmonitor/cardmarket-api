@@ -20,11 +20,19 @@ abstract class AbstractApi
 
     protected $tries = 0;
 
-    public function __construct(Api $api, array $access)
+    /**
+     * Parameters to be added for guzzle.
+     *
+     * @var array
+     */
+    protected $parameters = [];
+
+    public function __construct(Api $api, array $access, array $parameters = [])
     {
         $this->access = $access;
         $this->api = $api;
         $this->debug = $access['debug'] ?? false;
+        $this->parameters = $parameters;
     }
 
     protected function getClient(string $path) {
@@ -41,12 +49,15 @@ abstract class AbstractApi
 
         $stack->push($middleware);
 
-        return new Client([
+        $baseParameters = [
             'auth'      => 'oauth',
             'base_uri'  => $this->access['url'],
             'handler'   => $stack,
             'timeout'   => 10.0,
-        ]);
+        ];
+        $parameters = array_merge($baseParameters, $this->parameters);
+
+        return new Client($parameters);
     }
 
     protected function _delete(string $path, array $parameters = [])
