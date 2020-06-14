@@ -17,19 +17,19 @@ class Api
     protected $requestLimitMax = 0;
     protected $requestLimitCount = 0;
 
-    public function __construct(array $access)
+    public function __construct(array $access, array $parameters = [])
     {
         $access['url'] = $this->getUrl($access['url'] ?? '');
 
-        $this->access = new Access($this, $access);
-        $this->account = new Account($this, $access);
-        $this->expansion = new Expansion($this, $access);
-        $this->games = new Games($this, $access);
-        $this->messages = new Messages($this, $access);
-        $this->order = new Order($this, $access);
-        $this->priceguide = new Priceguide($this, $access);
-        $this->product = new Product($this, $access);
-        $this->stock = new Stock($this, $access);
+        $this->access = new Access($this, $access, $parameters);
+        $this->account = new Account($this, $access, $parameters);
+        $this->expansion = new Expansion($this, $access, $parameters);
+        $this->games = new Games($this, $access, $parameters);
+        $this->messages = new Messages($this, $access, $parameters);
+        $this->order = new Order($this, $access, $parameters);
+        $this->priceguide = new Priceguide($this, $access, $parameters);
+        $this->product = new Product($this, $access, $parameters);
+        $this->stock = new Stock($this, $access, $parameters);
     }
 
     public function setRequestLimitCount(int $limit) : void
