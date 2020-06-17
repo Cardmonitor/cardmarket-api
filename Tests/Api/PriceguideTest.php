@@ -4,7 +4,7 @@ namespace Cardmonitor\Cardmarket\Tests\Api;
 
 use Cardmonitor\Cardmarket\Product;
 
-class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
+class PriceguideTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 {
 
     /** @test */
