@@ -103,7 +103,7 @@ abstract class AbstractApi
             'PUT',
             $this->basePath . $path . (count($parameters) > 0 ? '?' . http_build_query($parameters) : ''),
             ['Content-Type' => 'text/xml; charset=UTF8'],
-            $xmlParametersCount ? ArrayToXml::convert($xmlParameters, 'request') : null,
+            $xmlParametersCount ? ArrayToXml::convert($xmlParameters, 'request') : null
         );
         $response = $this->getClient($path)->send($request, [
             'debug' => $this->debug
