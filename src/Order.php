@@ -31,12 +31,34 @@
                 'action' => 'send'
             ]);
         }
+        
+        public function cancel(int $orderId)
+        {
+            return $this->_put('order/' . $orderId, [], [
+                'action' => 'cancel'
+            ]);
+        }
+        
+        public function confirmReception(int $orderId)
+        {
+            return $this->_put('order/' . $orderId, [], [
+                'action' => 'confirmReception'
+            ]);
+        }
 
         public function requestCancellation(int $orderId, string $reason, bool $relistItems = false)
         {
             return $this->_put('order/' . $orderId, [], [
                 'action' => 'requestCancellation',
                 'reason' => $reason,
+                'relistItems' => $relistItems ? 'true' : 'false',
+            ]);
+        }
+        
+        public function acceptCancellation(int $orderId, bool $relistItems = false)
+        {
+            return $this->_put('order/' . $orderId, [], [
+                'action' => 'acceptCancellation',
                 'relistItems' => $relistItems ? 'true' : 'false',
             ]);
         }
