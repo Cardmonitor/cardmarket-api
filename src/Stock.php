@@ -73,6 +73,11 @@
 
             return $this->_put('stock/decrease', [], $xmlParameters);
         }
+
+        public function shoppingcartArticles()
+        {
+            return $this->_get('stock/shoppingcart-articles');
+        }
     }
 
 ?>
