@@ -1,16 +1,22 @@
 <?php
 namespace Cardmonitor\Cardmarket;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Subscriber\Oauth\Oauth1;
-
 class Api
 {
     const URL_API = 'https://api.cardmarket.com';
     const URL_SANDBOX = 'https://sandbox.cardmarket.com';
 
     const VERSION = '2.0';
+
+    public Access $access;
+    public Account $account;
+    public Expansion $expansion;
+    public Games $games;
+    public Messages $messages;
+    public Order $order;
+    public Priceguide $priceguide;
+    public Product $product;
+    public Stock $stock;
 
     protected $client;
 

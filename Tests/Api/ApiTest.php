@@ -13,12 +13,17 @@ class ApiTest extends PHPUnitTestCase
      */
     public function it_injects_extra_params()
     {
-        require(__DIR__.'/../access-example.php');
         $extraParams = [
             'timeout' => 20,
             'some_other' => true,
         ];
-        $api = new Api($accessSandbox, $extraParams);
+        $api = new Api([
+            'app_token' => $_ENV['app_token'],
+            'app_secret' => $_ENV['app_secret'],
+            'access_token' => $_ENV['access_token'],
+            'access_token_secret' => $_ENV['access_token_secret'],
+            'url' => Api::URL_SANDBOX,
+        ], $extraParams);
 
         // Use a Reflection class to access protected getClient()
         $class = new \ReflectionClass(Access::class);

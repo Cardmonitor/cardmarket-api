@@ -12,7 +12,7 @@
 
         public function unread()
         {
-            return $this->find([ 'unread' => true ]);
+            return $this->find([ 'unread' => 'true' ]);
         }
 
         public function read()

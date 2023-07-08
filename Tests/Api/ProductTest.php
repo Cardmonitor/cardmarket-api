@@ -20,8 +20,8 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $filename = 'products-' . $gameId . '.csv';
         $zippedFilename = $filename . '.gz';
 
-        $this->assertFileNotExists($zippedFilename);
-        $this->assertFileNotExists($filename);
+        $this->assertFileDoesNotExist($zippedFilename);
+        $this->assertFileDoesNotExist($filename);
 
         $handle = fopen($zippedFilename, 'wa+');
         fwrite( $handle, base64_decode( $data['productsfile'] ) );
@@ -45,7 +45,6 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $productId = $product['product']['idProduct'];
 
         $data = $this->api->product->get($productId);
-        var_dump($data);
 
         $this->assertEquals($productId, $data['product']['idProduct']);
         $this->assertArrayHasKey('product', $data);
@@ -62,7 +61,7 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         $product = json_decode(file_get_contents('Tests/responses/product/get.json'), true);
         $filename = './test.jpg';
 
-        $this->assertFileNotExists($filename);
+        $this->assertFileDoesNotExist($filename);
 
         $this->api->product->download(substr($product['product']['image'], 1), $filename);
 
@@ -82,8 +81,6 @@ class ProductTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         ]);
         $this->assertArrayHasKey('product', $data);
         $this->assertCount(2, $data['product']);
-
-        var_dump($data);
     }
 
 }

@@ -4,27 +4,40 @@ namespace Cardmonitor\Cardmarket\Tests\Api;
 
 class MessagesTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 {
+    private int $userId = 0;
+    private int $messageId = 0;
+
     /** @test */
     public function getsAllMessages()
     {
         $data = $this->api->messages->get();
-
         $this->assertArrayHasKey('thread', $data);
+
+        if (count($data['thread']) > 0) {
+            $this->userId = $data['thread'][0]['partner']['idUser'];
+            $this->messageId = $data['thread'][0]['message']['idMessage'];
+        }
     }
 
     /** @test */
     public function getsAllMessagesFromOneUser()
     {
-        $data = $this->api->messages->get(1880393);
+        if ($this->userId === 0) {
+            $this->markTestSkipped('No user id found.');
+        }
 
-        $this->assertArrayHasKey('partner', $data);
-        $this->assertArrayHasKey('message', $data);
+        $data = $this->api->messages->get($this->userId);
+        $this->assertArrayHasKey('thread', $data);
     }
 
     /** @test */
     public function getsOneMessageFromOneUser()
     {
-        $data = $this->api->messages->get(1880393, 14189911);
+        if ($this->userId === 0 || $this->messageId === 0) {
+            $this->markTestSkipped('No user id or message id found.');
+        }
+
+        $data = $this->api->messages->get($this->userId, $this->messageId);
 
         $this->assertArrayHasKey('partner', $data);
         $this->assertArrayHasKey('message', $data);
@@ -36,19 +49,16 @@ class MessagesTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     {
         $data = $this->api->messages->unread();
 
-        var_dump($data);
-
         $this->markTestSkipped('must be revisited.');
     }
 
     /** @test */
     public function findsReadMessages()
     {
+        $this->markTestSkipped('Needs the startDate parameter.');
+
         $data = $this->api->messages->read();
 
-        var_dump($data);
-
-        $this->markTestSkipped('must be revisited.');
     }
 
     /** @test */

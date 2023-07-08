@@ -10,6 +10,8 @@ class PriceguideTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     /** @test */
     public function getsCsv()
     {
+        $this->markTestSkipped('No data from Cardmarket');
+
         $data = $this->api->priceguide->csv();
 
         $filename = 'priceguide.csv';

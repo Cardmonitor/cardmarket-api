@@ -9,8 +9,7 @@ class AccessTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function it_gets_the_login_link()
     {
-        echo $this->api->access->link();
-        $this->assertEquals($this->accessData['url'] . '/ws/v2.0/authenticate/' . $this->accessData['app_token'] . '/de', $this->api->access->link());
+        $this->assertEquals($this->access_data['url'] . '/ws/v2.0/authenticate/' . $this->access_data['app_token'] . '/de', $this->api->access->link());
     }
 
     /**
@@ -18,7 +17,9 @@ class AccessTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function it_gets_the_access_token_and_access_token_secret()
     {
-        $data = $this->api->access->token($this->accessData['request_token']);
+        $this->markTestSkipped('This test is skipped because it requires user interaction.');
+
+        $data = $this->api->access->token($this->access_data['request_token']);
 
         var_dump($data);
         $this->assertArrayHasKey('oauth_token', $data);

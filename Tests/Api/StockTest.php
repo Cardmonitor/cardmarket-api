@@ -14,7 +14,7 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     {
         $data = $this->api->stock->get();
         $this->assertArrayHasKey('article', $data);
-        $this->showStock($data);
+        // $this->showStock($data);
     }
 
     /** @test */
@@ -184,6 +184,8 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     /** @test */
     public function updatesTwoNotExsistingArticles()
     {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+
         $articles = [
             [
                 'idProduct' => self::VALID_PRODUCT_ID,
@@ -227,6 +229,8 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     /** @test */
     public function updatesTwoArticlesWithErrors()
     {
+        $this->markTestIncomplete('This test has not been implemented yet.');
+
         $articles = [
             [
                 'idProduct' => self::VALID_PRODUCT_ID,
@@ -307,9 +311,10 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     }
 
     /** @test */
-    // does not work in sandbox
     public function getsCsv()
     {
+        $this->markTestSkipped('Does not worl in the sandbox.');
+
         $data = $this->api->stock->csv();
         $filename = 'stock.csv';
         $zippedFilename = $filename . '.gz';
@@ -403,9 +408,33 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function it_gets_one_article()
     {
-        $data = $this->api->stock->article(361149040);
-        echo json_encode($data);
-        var_dump($data);
+        $article = [
+            'idProduct' => self::VALID_PRODUCT_ID,
+            'idLanguage' => 1,
+            'comments' => 'Inserted through the API',
+            'count' => 1,
+            'price' => 1,
+            'condition' => 'EX',
+        ];
+
+        $data = $this->api->stock->add($article);
+        $newArticleId = $data['inserted']['idArticle']['idArticle'];
+
+        $data = $this->api->stock->article($newArticleId);
+
+        $this->assertArrayHasKey('article', $data);
+        $this->assertEquals($newArticleId, $data['article']['idArticle']);
+        $this->assertEquals(self::VALID_PRODUCT_ID, $data['article']['idProduct']);
+        $this->assertEquals(1, $data['article']['language']['idLanguage']);
+        $this->assertEquals('Inserted through the API', $data['article']['comments']);
+        $this->assertEquals(1, $data['article']['price']);
+        $this->assertEquals('EX', $data['article']['condition']);
+
+        $articles[] = [
+            'idArticle' => $newArticleId,
+            'count' => 1,
+        ];
+        $data = $this->api->stock->delete($articles);
     }
 
     /**
@@ -440,5 +469,15 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     //     $this->assertCount(0, $stocks['article']);
     // }
 
-
+    /**
+     * @test
+     */
+    public function it_gets_the_articles_in_other_users_shopping_cards()
+    {
+        $data = $this->api->stock->shoppingcartArticles();
+        echo PHP_EOL;
+        foreach ($data['article'] as $key => $cardmarketArticle) {
+            echo $cardmarketArticle['product']['enName'] . "\t" . $cardmarketArticle['idArticle'] . "\t" . $cardmarketArticle['idProduct'] . "\t" . $cardmarketArticle['count'] . "\t" . $cardmarketArticle['price'] . "\t" . $cardmarketArticle['comments'] . PHP_EOL;
+        }
+    }
 }

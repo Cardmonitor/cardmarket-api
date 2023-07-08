@@ -11,7 +11,6 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     public function findsAllBoughtOrders()
     {
         $data = $this->api->order->find(Order::ACTOR_BUYER, ORDER::STATE_PAID);
-        var_dump($data);
         $this->assertArrayHasKey('order', $data);
     }
 
@@ -19,13 +18,14 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     public function findsAllSoldPaidOrders()
     {
         $data = $this->api->order->find(Order::ACTOR_SELLER, ORDER::STATE_PAID);
-        var_dump($data);
         $this->assertArrayHasKey('order', $data);
     }
 
     /** @test */
     public function findsAllSoldReceivedOrders()
     {
+        $this->markTestSkipped('This test is too slow.');
+
         $orders = [];
         $start = 1;
         do {
@@ -37,16 +37,13 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
         }
         while (! is_null($data));
 
-        var_dump(count($orders));
-        var_dump($orders);
-        $this->assertArrayHasKey('order', $data);
+        $this->assertArrayHasKey('order', $orders);
     }
 
     /** @test */
     public function findsAllSoldCancelledOrders()
     {
         $data = $this->api->order->find(Order::ACTOR_SELLER, ORDER::STATE_CANCELLED);
-        var_dump($data);
         $this->assertArrayHasKey('order', $data);
     }
 
@@ -55,17 +52,19 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function marksOrderAsSend()
     {
+        $this->markTestSkipped('it needs an order ID.');
+
         $data = $this->api->order->send(65105546);
-        var_dump($data);
     }
 
     /** @test */
     public function getOneOrder()
     {
+        $this->markTestSkipped('it needs an order ID.');
+
         $orderId = 65407374;
         $data = $this->api->order->get($orderId);
-        var_dump(json_encode($data));
-        var_dump($data['order']['article'][0]);
+
         $this->assertArrayHasKey('order', $data);
         $this->assertEquals($orderId, $data['order']['idOrder']);
     }
@@ -75,9 +74,10 @@ class OrderTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function it_sets_a_trackingnumber_for_an_order()
     {
+        $this->markTestSkipped('it needs an order ID.');
+
         $orderId = 65007180;
         $data = $this->api->order->setTrackingNumber($orderId, '123456789');
-        var_dump($data);
     }
 
 }

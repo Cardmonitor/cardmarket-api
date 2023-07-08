@@ -2,19 +2,17 @@
 
 namespace Cardmonitor\Cardmarket\Tests\Api;
 
-use Cardmonitor\Cardmarket\Expansion;
-
 class ExpansionTest extends \Cardmonitor\Cardmarket\Tests\TestCase
 {
     const EXPANSION_ID = 1469;
     const GAME_ID_MAGIC = 1;
     const GAME_ID_YUGIOH = 3;
+    const GAME_ID_POKEMON = 6;
 
     /** @test */
     public function findsAllExpansionsForAGame()
     {
-        $data = $this->api->expansion->find(self::GAME_ID_MAGIC);
-        var_dump($data['expansion']);
+        $data = $this->api->expansion->find(self::GAME_ID_POKEMON);
         $this->assertArrayHasKey('expansion', $data);
         $this->assertArrayHasKey('links', $data);
     }
@@ -22,19 +20,17 @@ class ExpansionTest extends \Cardmonitor\Cardmarket\Tests\TestCase
     /** @test */
     public function getsAllSinglesForAnExtension()
     {
-        $data = $this->api->expansion->singles(2487);
-        var_dump(array_keys($data));
+        $data = $this->api->expansion->singles(1);
         $this->assertArrayHasKey('expansion', $data);
         $this->assertArrayHasKey('single', $data);
-        foreach ($data['single'] as $key => $value) {
-            // $this->api->product->download(substr($value['image'], 1), './test.jpg');
-        }
-
+        $this->assertArrayHasKey('links', $data);
     }
 
     /** @test */
     public function getAllCards()
     {
+        $this->markTestSkipped('This test is skipped because it runs a long time.');
+
         $expansions = $this->api->expansion->find(self::GAME_ID_MAGIC);
 
         $file = fopen('singles.csv', 'w');
@@ -70,6 +66,8 @@ class ExpansionTest extends \Cardmonitor\Cardmarket\Tests\TestCase
      */
     public function getAllCardsAsCsv()
     {
+        $this->markTestSkipped('This test is skipped because it runs a long time.');
+
         $languages = [
             1 => 'English',
             2 => 'French',
