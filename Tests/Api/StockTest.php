@@ -480,4 +480,30 @@ class StockTest extends \Cardmonitor\Cardmarket\Tests\TestCase
             echo $cardmarketArticle['product']['enName'] . "\t" . $cardmarketArticle['idArticle'] . "\t" . $cardmarketArticle['idProduct'] . "\t" . $cardmarketArticle['count'] . "\t" . $cardmarketArticle['price'] . "\t" . $cardmarketArticle['comments'] . PHP_EOL;
         }
     }
+
+    /**
+     * @test
+     */
+    public function it_can_create_a_request_to_export_the_stock()
+    {
+        $data = $this->api->stock->requestExport();
+        var_dump($data);
+        // $this->assertArrayHasKey('request', $data);
+        // $this->assertArrayHasKey('idRequest', $data['request']);
+        // $this->assertArrayHasKey('success', $data['request']);
+        // $this->assertEquals('true', $data['request']['success']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_the_datails_of_all_export_requests()
+    {
+        $data = $this->api->stock->exports();
+        var_dump($data);
+        // $this->assertArrayHasKey('request', $data);
+        // $this->assertArrayHasKey('idRequest', $data['request']);
+        // $this->assertArrayHasKey('success', $data['request']);
+        // $this->assertEquals('true', $data['request']['success']);
+    }
 }

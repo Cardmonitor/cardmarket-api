@@ -17,6 +17,7 @@ class Api
     public Priceguide $priceguide;
     public Product $product;
     public Stock $stock;
+    public StockExport $stock_export;
 
     protected $client;
 
@@ -36,6 +37,7 @@ class Api
         $this->priceguide = new Priceguide($this, $access, $parameters);
         $this->product = new Product($this, $access, $parameters);
         $this->stock = new Stock($this, $access, $parameters);
+        $this->stock_export = new StockExport($this, $access, $parameters);
     }
 
     public function setRequestLimitCount(int $limit) : void

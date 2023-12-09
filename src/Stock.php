@@ -78,6 +78,21 @@
         {
             return $this->_get('stock/shoppingcart-articles');
         }
+
+        public function requestExport(int $game_id = 0)
+        {
+            return $this->_post('exports/stock' . ($game_id ? '?idGame=' . $game_id : ''), []);
+        }
+
+        public function getExports()
+        {
+            return $this->_get('exports/stock');
+        }
+
+        public function findExport(int $export_id)
+        {
+            return $this->_get('exports/stock/' . $export_id);
+        }
     }
 
 ?>
