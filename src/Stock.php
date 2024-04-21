@@ -47,6 +47,11 @@
             return $this->_get('stock' . ($start ? '/' . $start : ''));
         }
 
+        public function product(int $product_id)
+        {
+            return $this->_get('stock/products/' . $product_id);
+        }
+
         public function update(array $articles)
         {
             $xmlParameters = [
