@@ -44,7 +44,7 @@ use GuzzleHttp\Subscriber\Oauth\Oauth1;
         {
             $client = new Client([
                 'base_uri'  => 'https://static.cardmarket.com',
-                'timeout'   => 5.0,
+                'timeout'   => 30.0,
             ]);
 
             $resource = fopen($filename, 'w');
