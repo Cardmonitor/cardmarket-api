@@ -20,6 +20,8 @@ abstract class AbstractApi
 
     protected $tries = 0;
 
+    protected int $status = 0;
+
     /**
      * Parameters to be added for guzzle.
      *
@@ -33,6 +35,11 @@ abstract class AbstractApi
         $this->api = $api;
         $this->debug = $access['debug'] ?? false;
         $this->parameters = $parameters;
+    }
+
+    public function status() : int
+    {
+        return $this->status;
     }
 
     protected function getClient(string $path) {
@@ -127,6 +134,7 @@ abstract class AbstractApi
     {
         try {
             $response = $this->getClient($path)->$method($this->basePath . $path, [ 'query' => $parameters, 'debug' => $this->debug ]);
+            $this->status = $response->getStatusCode();
         }
         catch (ConnectException $e) {
             $this->tries++;
