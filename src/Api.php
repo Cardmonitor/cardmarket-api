@@ -3,7 +3,7 @@ namespace Cardmonitor\Cardmarket;
 
 class Api
 {
-    const URL_API = 'https://api.cardmarket.com';
+    const URL_API = 'https://apiv2.cardmarket.com';
     const URL_SANDBOX = 'https://sandbox.cardmarket.com';
 
     const VERSION = '2.0';
