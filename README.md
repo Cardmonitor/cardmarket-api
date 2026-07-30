@@ -1,11 +1,8 @@
 # Wrapper for Cardmarket.com API
 
-[Cardmonitor](https://www.cardmonitor.de)
-
 [Cardmarket](https://www.cardmarket.com)
 
-[API Documentation](https://api.cardmarket.com/ws/documentation/API_2.0:Main_Page)
-
+[API Documentation](https://apiv2.cardmarket.com/ws/documentation/API_2.0:Main_Page)
 
 ## Installation
 
@@ -96,7 +93,7 @@ $data = $api->expansion->find($gameId);
 #### Expansion Singles
 
 ```php
-$expansionId = 1469; 
+$expansionId = 1469;
 $data = $api->expansion->singles($expansionId);
 ```
 
